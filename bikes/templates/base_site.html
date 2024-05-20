@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django Admin{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    {% block extrastyle %}{% endblock %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-name a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 24px;
+        }
+
+        .user-tools a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="site-name">
+            <div class="user-tools">
+                {% block usertools %}
+                    {% if user.is_active and user.is_staff %}
+                    <a href="{% url 'admin:index' %}">Admin Dashboard</a></h1>
+                        <p>Welcome, {{ user.get_username }}. <a href="{% url 'admin:logout' %}">Log out</a></p>
+                    {% else %}
+                        <p><a href="{% url 'admin:login' %}">Log in</a></p>
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="content-container {% block coltype %}{% endblock %}">
+           
+            {% block messages %}
+                {% if messages %}
+                    <ul class="messagelist">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endblock %}
+            {% block content %}{% endblock %}
+            <br class="clear">
+        </div>
+    </main>
+    <footer>
+        &copy; 2024 Your Company Name
+    </footer>
+</body>
+</html>

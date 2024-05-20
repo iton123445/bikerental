@@ -1,0 +1,89 @@
+{% extends 'base_site.html' %}
+
+{% block content %}
+<style>
+    .add-bike {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.add-bike h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group select {
+    padding: 9px; /* Adjust for select height */
+}
+
+.btn {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #838181;
+}
+
+</style>
+<div class="add-bike">
+    <h2>Add New Bike</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_name">Name:</label>
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            <label for="id_description">Description:</label>
+            {{ form.description }}
+        </div>
+        <div class="form-group">
+            <label for="id_image">Image:</label>
+            {{ form.image }}
+        </div>
+        <div class="form-group">
+            <label for="id_price">Price:</label>
+            {{ form.price }}
+        </div>
+        <div class="form-group">
+            <label for="id_available">Available:</label>
+            {{ form.available }}
+        </div>
+        <div class="form-group">
+            <label for="id_stock">Stock:</label>
+            {{ form.stock }}
+        </div>
+        <button type="submit" class="btn btn-primary">Add Bike</button>
+    </form>
+</div>
+{% endblock %}

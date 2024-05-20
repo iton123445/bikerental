@@ -1,0 +1,21 @@
+{% extends 'base_site.html' %}
+
+{% block content %}
+<div class="dashboard">
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="bike_id" value="{{ bike.id }}">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="{{ bike.name }}"><br>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description">{{ bike.description }}</textarea><br>
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" value="{{ bike.price }}"><br>
+    <label for="available">Available:</label>
+    <input type="checkbox" id="available" name="available" {% if bike.available %}checked{% endif %}><br>
+    <label for="stock">Stock:</label>
+    <input type="number" id="stock" name="stock" value="{{ bike.stock }}"><br>
+    <button type="submit">Update</button>
+</form>
+{% endblock %}
+

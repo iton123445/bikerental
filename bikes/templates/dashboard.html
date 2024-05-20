@@ -1,0 +1,112 @@
+{% extends 'base_site.html' %}
+
+{% block content %}
+<style>
+
+    .management-options {
+    margin-top: 20px;
+}
+
+.management-options h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.management-options ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.management-options li {
+    margin-bottom: 10px;
+}
+
+.option-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:#333;;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+.option-link:hover {
+    background-color: #333;
+}
+
+</style>
+</style>
+<div class="dashboard">
+    <h1>Welcome to the Admin Dashboard</h1>
+ 
+        <h2>Management Options:</h2>
+        <ul>
+            <li><a href="#" id="manage-bikes" class="option-link">Manage Bikes</a></li><br>
+            <li><a href="#" id="manage-bookings" class="option-link">Manage Bookings</a></li>
+        </ul>
+    </div>
+    
+    <div id="content-container" class="content-container">
+        <!-- Dynamic content will be loaded here -->
+    </div>
+    <div id="bookings-container" class="content-container" style="display: none;"> <!-- Added bookings container -->
+        <!-- Bookings table will be loaded here -->
+    </div>
+</div>
+
+<style>
+    /* Existing styles remain unchanged */
+</style>
+
+<script>
+    document.getElementById('manage-bikes').addEventListener('click', function(event) {
+        event.preventDefault();
+        fetch('{% url "manage_bikes" %}')
+            .then(response => response.text())
+            .then(data => {
+                const contentContainer = document.getElementById('content-container');
+                contentContainer.innerHTML = data;
+                contentContainer.classList.add('fadeIn');
+                // Add event listeners for delete, update, and add bike buttons
+                document.getElementById('delete-bike').addEventListener('click', function(event) {
+                    event.preventDefault();
+                    // Add logic for deleting a bike
+                });
+                document.getElementById('update-bike').addEventListener('click', function(event) {
+                    event.preventDefault();
+                    // Add logic for updating a bike
+                });
+                document.getElementById('add-bike').addEventListener('click', function(event) {
+                    event.preventDefault();
+                    // Add logic for adding a new bike
+                });
+            });
+    });
+
+    document.getElementById('manage-bookings').addEventListener('click', function(event) {
+        event.preventDefault();
+        fetch('{% url "manage_bookings" %}')
+            .then(response => response.text())
+            .then(data => {
+                const bookingsContainer = document.getElementById('bookings-container');
+                bookingsContainer.innerHTML = data;
+                bookingsContainer.style.display = 'block'; // Show the bookings container
+                bookingsContainer.classList.add('fadeIn');
+                // Add event listeners for updating booking status buttons
+                document.querySelectorAll('.update-booking-status').forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const bookingId = this.dataset.bookingId;
+                        const newStatus = this.dataset.newStatus;
+                        // Send a request to update booking status with bookingId and newStatus
+                        // Add logic for updating booking status
+                    });
+                });
+            });
+    });
+</script>
+{% endblock %}

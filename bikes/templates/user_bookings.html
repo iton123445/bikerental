@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .booking-section {
+      margin-top: 20px; /* Adjust as needed */
+  }
+</style>
+<div class="container">
+  <br><br>
+  <h2>My Rent's</h2>
+
+  <!-- Container for Pending Orders -->
+  <div class="booking-section">
+    <h3>Pending Rent</h3>
+    {% if user_bookings %}
+    <div class="list-group">
+      {% for booking in user_bookings %}
+        {% if booking.status == 'Pending' %}
+        <div class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between align-items-center">
+            <h5 class="mb-1">{{ booking.bike.name }}</h5>
+            <small>Status: <span class="text-warning">{{ booking.status }}</span></small>
+          </div>
+          <p class="mb-1"><strong>Start Date:</strong> {{ booking.start_date }}</p>
+          <p class="mb-1"><strong>End Date:</strong> {{ booking.end_date }}</p>
+          <p class="text-warning"><strong>Waiting for admin approval.</strong></p>
+        </div>
+        {% endif %}
+      {% empty %}
+        <p class="text-muted">No pending Rent.</p>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p class="text-muted">No pending Rent.</p>
+    {% endif %}
+  </div>
+
+  <!-- Container for Confirmed Orders -->
+  <div class="booking-section">
+    <h3>Confirmed Rent</h3>
+    {% if user_bookings %}
+    <div class="list-group">
+      {% for booking in user_bookings %}
+        {% if booking.status == 'Confirmed' %}
+        <div class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between align-items-center">
+            <h5 class="mb-1">{{ booking.bike.name }}</h5>
+            <small>Status: <span class="text-success">{{ booking.status }}</span></small>
+          </div>
+          <p class="mb-1"><strong>Start Date:</strong> {{ booking.start_date }}</p>
+          <p class="mb-1"><strong>End Date:</strong> {{ booking.end_date }}</p>
+          <p class="text-success"><strong>Booking confirmed. Payment completed.</strong></p>
+        </div>
+        {% endif %}
+      {% empty %}
+        <p class="text-muted">No confirmed bookings.</p>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p class="text-muted">No confirmed bookings.</p>
+    {% endif %}
+  </div>
+
+  <!-- Container for Cancelled Orders -->
+  <div class="booking-section">
+    <h3>Cancelled Rent</h3>
+    {% if user_bookings %}
+    <div class="list-group">
+      {% for booking in user_bookings %}
+        {% if booking.status == 'Cancelled' %}
+        <div class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between align-items-center">
+            <h5 class="mb-1">{{ booking.bike.name }}</h5>
+            <small>Status: <span class="text-danger">{{ booking.status }}</span></small>
+          </div>
+          <p class="mb-1"><strong>Start Date:</strong> {{ booking.start_date }}</p>
+          <p class="mb-1"><strong>End Date:</strong> {{ booking.end_date }}</p>
+          <p class="text-danger"><strong>Booking cancelled.</strong></p>
+        </div>
+        {% endif %}
+      {% empty %}
+        <p class="text-muted">No cancelled rent.</p>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p class="text-muted">No cancelled rent.</p>
+    {% endif %}
+  </div>
+
+
+
+  <!-- Container for Return Orders -->
+  <div class="booking-section">
+    <h3>Return Rent</h3>
+    {% if user_bookings %}
+    <div class="list-group">
+      {% for booking in user_bookings %}
+        {% if booking.status == 'Return' %}
+        <div class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between align-items-center">
+            <h5 class="mb-1">{{ booking.bike.name }}</h5>
+            <small>Status: <span class="text-danger">{{ booking.status }}</span></small>
+          </div>
+          <p class="mb-1"><strong>Start Date:</strong> {{ booking.start_date }}</p>
+          <p class="mb-1"><strong>End Date:</strong> {{ booking.end_date }}</p>
+          <p class="text-danger"><strong>Rent Return.</strong></p>
+        </div>
+        {% endif %}
+      {% empty %}
+        <p class="text-muted">No Return Rent.</p>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p class="text-muted">No Return Rent.</p>
+    {% endif %}
+  </div>
+
+
+
+  {% if user_bookings %}
+    <p class="mt-4">Total Bookings: {{ user_bookings|length }}</p>
+  {% else %}
+    <p class="mt-4">No bookings found.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

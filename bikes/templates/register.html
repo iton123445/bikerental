@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<br><br><br>
+
+<style>
+  /* Custom CSS for aligning colons */
+  .label-colon {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .label-colon label {
+    margin-right: 10px;
+  }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center vh-80">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title text-center">Register</h2>
+      <form method="post" class="text-center needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="mb-3 row">
+          <div class="col-md-6 label-colon">
+            <label for="id_username">Username</label>:
+          </div>
+          <div class="col-md-6">
+            <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required aria-describedby="usernameHelp" id="id_username">
+            <div class="invalid-feedback">
+              {{ form.username.errors|striptags }}
+            </div>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-6 label-colon">
+            <label for="id_password1">Password</label>:
+          </div>
+          <div class="col-md-6">
+            <input type="password" name="password1" autocomplete="new-password" required aria-describedby="password1Help" id="id_password1">
+            <div class="invalid-feedback">
+              {{ form.password1.errors|striptags }}
+            </div>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-6 label-colon">
+            <label for="id_password2">Password confirmation</label>:
+          </div>
+          <div class="col-md-6">
+            <input type="password" name="password2" autocomplete="new-password" required aria-describedby="password2Help" id="id_password2">
+            <div class="invalid-feedback">
+              {{ form.password2.errors|striptags }}
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      var forms = document.getElementsByClassName('needs-validation');
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
+{% endblock %}

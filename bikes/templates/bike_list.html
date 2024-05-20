@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+  .container h2{
+    font-size: 3rem;
+    text-align: center;
+    margin: 40px;
+  }
+  .about-us {
+    margin: 60px 0;
+    padding: 40px;
+    background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url("{% static 'about-bg.jpg' %}") center/cover no-repeat;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .about-us h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #373e44;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .about-us p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Verdana', sans-serif;
+  }
+
+  .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-10px);
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    color: #0056b3;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .card-text {
+    font-size: 1rem;
+    color: #555;
+    font-family: 'Verdana', sans-serif;
+  }.slideshow-container {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+  }
+
+  .mySlides {
+    display: none;
+  }
+
+  .fade {
+    animation: fadeEffect 4.5s;
+  }
+
+  @keyframes fadeEffect {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+
+  .slideshow-container img {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: auto;
+  max-height: 500px; /* Ensures the image doesn't exceed 500px in height */
+  object-fit: cover; /* Ensures the image covers the container proportionally */
+}
+</style>
+<section>
+  <img src="{% static 'bikes.jpg' %}" alt="" width="100%" height="730px">
+</section>
+
+<div class="container">
+  <h2 class="bike_list" style="text-align: center;">𝐑𝐞𝐧𝐭 𝐚 𝐁𝐢𝐤𝐞 𝐧𝐨𝐰</h2>
+  <div class="row">
+    {% for bike in bikes %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img src="{{ bike.image.url }}" class="card-img-top" alt="{{ bike.name }}" style="max-height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title">Name: {{ bike.name }}</h5>
+          <p class="card-text"><strong>Description: {{ bike.description }}</strong></p>
+          <p class="card-text"><strong>Price: ${{ bike.price }}</strong></p>
+          <p class="card-text"><strong>Stocks: {{ bike.stock }}</strong></p>
+          {% if user.is_authenticated %}
+          <form method="post" action="{% url 'add_to_cart' bike.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+          </form>
+          {% else %}
+          <button type="button" class="btn btn-primary" disabled>Add to Cart</button><br><br>
+          <div class="alert alert-danger" role="alert">
+            You need to <a href="{% url 'logins' %}">login</a> to add items to the cart.
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col">
+      <p>No bikes available.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<!-- About Us Section -->
+<center>
+<div class="container about-us">
+  <h2>About Us</h2>
+  <div class="slideshow-container">
+    <div class="mySlides fade">
+      <img src="{% static 'slide1.jpg' %}" alt="Slide 1">
+    </div>
+    <div class="mySlides fade">
+      <img src="{% static 'slide2.jpg' %}" alt="Slide 2">
+    </div>
+    <div class="mySlides fade">
+      <img src="{% static 'slide3.jpg' %}" alt="Slide 3">
+    </div>
+    <div class="mySlides fade">
+      <img src="{% static 'slide4.jpg' %}" alt="Slide 3">
+    </div>
+    <div class="mySlides fade">
+      <img src="{% static 'slide5.jpg' %}" alt="Slide 3">
+    </div>
+  </div>
+  <br>
+  <p>Welcome to Cycle House Iligan! We are dedicated to providing the best biking experience in Iligan. Whether you're looking to rent a bike for a day of adventure or need a reliable ride for your daily commute, we have a wide range of bikes to suit your needs. Our team is passionate about cycling and is always here to help you find the perfect bike and accessories. Thank you for choosing Cycle House Iligan. Happy riding!</p>
+</div>
+</center>
+<script>
+  var slideIndex = 0;
+  showSlides();
+
+  function showSlides() {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}    
+    slides[slideIndex-1].style.display = "block";  
+    setTimeout(showSlides, 3000); // Change image every 2 seconds
+  }
+</script>
+
+{% endblock %}

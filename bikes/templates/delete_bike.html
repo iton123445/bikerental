@@ -1,0 +1,6 @@
+<form method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete "{{ bike.name }}"?</p>
+    <input type="submit" value="Delete">
+    <a href="{% url 'manage_bikes' %}">Cancel</a>
+</form>

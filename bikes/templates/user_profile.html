@@ -1,0 +1,25 @@
+<!-- user_profile.html -->
+
+{% extends 'base.html' %}
+{% block content %}
+<br>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>User Information</h3>
+        <p>Username: {{ user.username }}</p>
+        <!-- Add more user information fields here -->
+      </div>
+      <div class="col-md-6">
+        <h3>Booking History</h3>
+        <ul>
+          {% for booking in bookings %}
+            <li>{{ booking.bike.name }} - {{ booking.start_date }} to {{ booking.end_date }} (Status: {{ booking.status }})</li>
+          {% empty %}
+            <li>No bookings yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>Bike List</h2>
+  <div class="row">
+    {% for bike in bikes %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img src="{{ bike.image.url }}" class="card-img-top" alt="{{ bike.name }}" style="max-height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title">{{ bike.name }}</h5>
+          <p class="card-text">{{ bike.description }}</p>
+          <p class="card-text"><strong>${{ bike.price }}</strong></p>
+          {% if user.is_authenticated %}
+          <form method="post" action="{% url 'add_to_cart' bike.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+          </form>
+          {% else %}
+          <button type="button" class="btn btn-primary" onclick="showLoginMessage()">Add to Cart</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col">
+      <p>No bikes available.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  function showLoginMessage() {
+    $('#login-message').show();
+  }
+</script>
+{% endblock %}
